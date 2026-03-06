@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<title>Admin Dashboard</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#111;
+color:white;
+padding:40px;
+}
+
+h1{
+text-align:center;
+margin-bottom:30px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+background:#1a1a1a;
+}
+
+th,td{
+padding:12px;
+border:1px solid #333;
+text-align:center;
+}
+
+th{
+background:#222;
+}
+
+tr:hover{
+background:#2a2a2a;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Submitted Users</h1>
+
+<table>
+
+<thead>
+<tr>
+<th>ID</th>
+<th>Phone</th>
+<th>Email</th>
+<th>Password</th>
+</tr>
+</thead>
+
+<tbody id="tableBody"></tbody>
+
+</table>
+
+<script>
+
+async function loadUsers(){
+
+const res = await fetch("http://localhost:3000/users")
+
+const users = await res.json()
+
+let rows = ""
+
+users.forEach(user => {
+
+rows += `
+<tr>
+<td>${user.id}</td>
+<td>${user.phone}</td>
+<td>${user.email}</td>
+<td>${user.password}</td>
+</tr>
+`
+
+})
+
+document.getElementById("tableBody").innerHTML = rows
+
+}
+
+loadUsers()
+
+</script>
+
+</body>
+</html>

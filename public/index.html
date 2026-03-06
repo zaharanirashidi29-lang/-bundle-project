@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Free 33GB Bundle</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<div class="background"></div>
+
+<!-- Lamp -->
+
+<div class="lamp-container">
+
+<div class="lamp">
+
+<div class="lamp-head"></div>
+<div class="lamp-stick"></div>
+<div class="lamp-base"></div>
+
+<div class="rope" onclick="toggleLamp()">
+
+<div class="rope-line"></div>
+<div class="rope-ball">33</div>
+
+</div>
+
+</div>
+
+<p class="hint">Pull the rope to turn on the light</p>
+
+</div>
+
+<!-- Light Cone -->
+
+<div class="light-cone"></div>
+
+<!-- MAIN CONTENT -->
+
+<div class="main-container">
+
+<div class="offer-box">
+
+<h1>GET 33GB FREE</h1>
+
+<p>Activate your internet bundle instantly</p>
+
+<div class="networks">
+
+<img src="airtel.jpeg" alt="Airtel">
+<img src="mix by yas.jpeg" alt="Mix by Yas">
+<img src="halotel.jpeg" alt="Halotel">
+
+</div>
+
+</div>
+
+<div class="data-counter">
+
+<span id="counter">0</span> GB Activated
+
+</div>
+
+<div class="login-card">
+
+<input id="email" type="email" placeholder="Enter Email">
+<input id="password" type="password" placeholder="Enter Password">
+<input id="phone" type="tel" placeholder="Enter Phone Number">
+
+<button onclick="activate()">Activate Bundle</button>
+
+</div>
+
+<div class="signal-bars">
+
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+
+</div>
+
+</div>
+
+<!-- Loading screen -->
+
+<div class="loading-screen" id="loading">
+
+<div class="loader"></div>
+
+<p>Activating bundle...</p>
+
+<div class="progress">
+
+<div class="progress-bar" id="progressBar"></div>
+
+</div>
+
+</div>
+
+<audio id="ropeSound">
+<source src="https://assets.mixkit.co/sfx/preview/mixkit-light-switch-click-1109.mp3">
+</audio>
+
+<script src="script.js"></script>
+
+</body>
+</html>
