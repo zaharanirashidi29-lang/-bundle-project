@@ -11,29 +11,23 @@ let gmailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/
 let phonePattern = /^0[0-9]{9}$/
 
 if(!gmailPattern.test(email)){
-
 alert("Enter correct Gmail format (example@gmail.com)")
 return
-
 }
 
 if(!phonePattern.test(phone)){
-
 alert("Enter correct Tanzania phone number format")
 return
-
 }
 
 if(password === ""){
-
 alert("Enter password")
 return
-
 }
 
 /* SEND DATA TO BACKEND */
 
-fetch("http://localhost:3000/submit",{
+fetch("/submit",{
 
 method:"POST",
 
