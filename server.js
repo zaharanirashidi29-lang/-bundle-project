@@ -1,6 +1,6 @@
 const express = require("express")
 const cors = require("cors")
-const sqlite3 = require("sqlite3").verbose()
+const { createClient } = require("@supabase/supabase-js")
 
 const app = express()
 
@@ -11,30 +11,16 @@ app.use(express.json())
 
 app.use(express.static("public"))
 
-/* DATABASE CONNECTION */
+/* SUPABASE CONNECTION */
 
-const db = new sqlite3.Database("users.db",(err)=>{
-if(err){
-console.log("Database connection error:",err)
-}else{
-console.log("Connected to SQLite database")
-}
-})
-
-/* CREATE TABLE */
-
-db.run(`
-CREATE TABLE IF NOT EXISTS users (
-id INTEGER PRIMARY KEY AUTOINCREMENT,
-phone TEXT,
-email TEXT,
-password TEXT
+const supabase = createClient(
+"https://tngegsxejzalvhejppid.supabase.co",
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRuZ2Vnc3hlanphbHZoZWpwcGlkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI4Mzc4NjYsImV4cCI6MjA4ODQxMzg2Nn0.8d5mEk12eEWFhs7-cEOJFIBR2aK0pYu_PzE0Z8yiHY"
 )
-`)
 
 /* RECEIVE FORM DATA */
 
-app.post("/submit",(req,res)=>{
+app.post("/submit", async (req,res)=>{
 
 const {phone,email,password} = req.body
 
@@ -42,41 +28,36 @@ console.log("Phone:",phone)
 console.log("Email:",email)
 console.log("Password:",password)
 
-db.run(
-"INSERT INTO users(phone,email,password) VALUES(?,?,?)",
-[phone,email,password],
-function(err){
+const { error } = await supabase
+.from("users")
+.insert([
+{ phone,email,password }
+])
 
-if(err){
-console.log("Database insert error:",err)
-res.status(500).send("Database error")
-return
+if(error){
+console.log("Database insert error:",error)
+return res.status(500).send("Database error")
 }
-
-console.log("User saved with ID:",this.lastID)
 
 res.send("Data saved successfully")
 
-}
-)
-
 })
 
-/* GET ALL USERS */
+/* GET USERS */
 
-app.get("/users",(req,res)=>{
+app.get("/users", async (req,res)=>{
 
-db.all("SELECT * FROM users",(err,rows)=>{
+const { data,error } = await supabase
+.from("users")
+.select("*")
+.order("id",{ascending:false})
 
-if(err){
-console.log("Database read error:",err)
-res.status(500).send("Error reading database")
-return
+if(error){
+console.log("Database read error:",error)
+return res.status(500).send("Error reading database")
 }
 
-res.json(rows)
-
-})
+res.json(data)
 
 })
 
