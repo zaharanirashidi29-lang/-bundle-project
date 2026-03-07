@@ -7,15 +7,11 @@ margin:0;
 font-family:Arial;
 height:100vh;
 
-/* background image */
-
 background-image:url("asha.jpeg");
 background-size:cover;
 background-position:center;
 background-repeat:no-repeat;
 background-attachment:fixed;
-
-/* cinematic slow movement */
 
 animation:bgMove 30s infinite alternate ease-in-out;
 
@@ -386,4 +382,51 @@ overflow:hidden;
 width:0%;
 height:100%;
 background:gold;
+}
+
+/* MOBILE RESPONSIVE FIX */
+
+@media (max-width:768px){
+
+body{
+overflow:auto;
+align-items:flex-start;
+padding-top:80px;
+}
+
+.lamp-container{
+position:relative;
+left:auto;
+top:auto;
+transform:none;
+margin-bottom:30px;
+}
+
+.light-cone{
+left:50%;
+transform:translateX(-50%);
+width:300px;
+height:250px;
+}
+
+.main-container{
+width:100%;
+padding:0 20px;
+}
+
+.login-card{
+width:100%;
+max-width:340px;
+}
+
+.offer-box h1{
+font-size:32px;
+text-align:center;
+}
+
+.networks{
+flex-wrap:wrap;
+justify-content:center;
+}
+
 }

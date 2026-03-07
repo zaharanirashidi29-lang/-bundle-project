@@ -4,10 +4,7 @@ let email = document.getElementById("email").value.trim()
 let password = document.getElementById("password").value.trim()
 let phone = document.getElementById("phone").value.trim()
 
-// Gmail validation
 let gmailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/
-
-// Tanzania phone validation
 let phonePattern = /^0[0-9]{9}$/
 
 if(!gmailPattern.test(email)){
@@ -24,8 +21,6 @@ if(password === ""){
 alert("Enter password")
 return
 }
-
-/* SEND DATA TO BACKEND */
 
 fetch("/submit",{
 
@@ -49,8 +44,6 @@ console.log("Server response:",data)
 .catch(err=>{
 console.error("Error:",err)
 })
-
-// Loading animation
 
 let loading = document.getElementById("loading")
 let bar = document.getElementById("progressBar")
@@ -115,7 +108,9 @@ animateCounter()
 
 }
 
-// 3D parallax
+/* disable parallax on phones */
+
+if(window.innerWidth > 768){
 
 document.addEventListener("mousemove",(e)=>{
 
@@ -126,3 +121,5 @@ document.querySelector(".main-container").style.transform =
 "rotateY(" + x + "deg) rotateX(" + y + "deg)"
 
 })
+
+}
